@@ -10,6 +10,7 @@
 Servo ESC;     // create servo object to control the ESC
 
 int potValue;  // value from the analog pin
+int sentVal;
 
 void setup() {
   // Attach the ESC on pin 9
@@ -19,10 +20,19 @@ void setup() {
 
 void loop() {
   potValue = analogRead(A0);   // reads the value of the potentiometer (value between 0 and 1023)
-  potValue = map(potValue, 0, 1023, -90, 90);   // scale it to use it with the servo library (value between 0 and 180)
-  ESC.write(potValue);    // Send the signal to the ESC
-  
+  potValue = map(potValue, 0, 1023, 0, 180);   // scale it to use it with the servo library (value between 0 and 180)
+  sentVal = potValue;
+
+  /*if (sentVal <= 20 && sentVal >= -20){
+    sentVal = 0;
+  }*/
+
+  //ESC.write(potValue);    // Send the signal to the ESC
+  ESC.write(sentVal);
+
   Serial.print("potValue: ");
-  Serial.println(potValue);
+  Serial.print(potValue);
+  Serial.print("  Sent Value: ");
+  Serial.println(sentVal);
 
 }

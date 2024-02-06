@@ -21,7 +21,11 @@
 
 #include "WiFiS3.h"
 
+#include <Servo.h>
 
+Servo ESC;     // create servo object to control the ESC
+
+int potValue;  // value from the analog pin
 
 #include "arduino_secrets.h" 
 ///////please enter your sensitive data in the Secret tab/arduino_secrets.h
@@ -31,9 +35,14 @@ int keyIndex = 0;                 // your network key index number (needed only 
 
 int status = WL_IDLE_STATUS;
 
+String header;
+
 WiFiServer server(80);
 
 void setup() {
+  // Attach the ESC on pin 9
+  ESC.attach(9,1000,2000); // (pin, min pulse width, max pulse width in microseconds)
+
   //Initialize serial and wait for port to open:
   Serial.begin(9600);
   while (!Serial) {
@@ -69,6 +78,10 @@ void setup() {
 
 
 void loop() {
+  //potValue = analogRead(A0);   // reads the value of the potentiometer (value between 0 and 1023)
+  //potValue = map(potValue, 0, 1023, -90, 90);   // scale it to use it with the servo library (value between 0 and 180)
+  //ESC.write(potValue);    // Send the signal to the ESC
+
   // listen for incoming clients
   WiFiClient client = server.available();
   if (client) {
@@ -82,12 +95,18 @@ void loop() {
         // if you've gotten to the end of the line (received a newline
         // character) and the line is blank, the HTTP request has ended,
         // so you can send a reply
+
+        header += c;
+
+
         if (c == '\n' && currentLineIsBlank) {
+          Serial.println(header.indexOf("p#slider\value"));//see what was captured
+
           // send a standard HTTP response header
           client.println("HTTP/1.1 200 OK");
           client.println("Content-Type: text/html");
-          client.println("Connection: close");  // the connection will be closed after completion of the response
-          client.println("Refresh: 5");  // refresh the page automatically every 5 sec
+          //client.println("Connection: close");  // the connection will be closed after completion of the response
+          //client.println("Refresh: 5");  // refresh the page automatically every 5 sec
           client.println();
           client.println("<!DOCTYPE HTML>");
           client.println("<html>");
@@ -100,6 +119,22 @@ void loop() {
             client.print(sensorReading);
             client.println("<br />");
           }
+
+          //client.println("<br><input type=\"range\" min=\"-90\" max=\"90\" value=\"0\" class=\"slider\" id=\"myRange\"><p id=\"slider value\">space holder</p><script>var slider = document.getElementById(\"myRange\");var output = document.getElementById(\"slider value\");output.innerHTML = slider.value;slider.oninput = function() {output.innerHTML = this.value;}</script>");
+          
+          printSlider(client);
+
+          if(header.indexOf("9") >= 0){
+              Serial.println(header.indexOf("9"));
+          }
+
+          //potValue = slider.value;
+
+          //ESC.write(potValue);    // Send the signal to the ESC
+          client.print("<p style=\"font-size:7vw;\">potValue: ");
+          client.print(potValue);
+          client.print(" <br></p>");
+
           client.println("</html>");
           break;
         }
@@ -137,4 +172,21 @@ void printWifiStatus() {
   Serial.print("signal strength (RSSI):");
   Serial.print(rssi);
   Serial.println(" dBm");
+}
+
+void printSlider(WiFiClient client){
+  client.print("<br><input type=\"range\" min=\"");
+  client.print(-90);
+  client.print("\" max=\"");
+  client.print(90);
+  client.print("\" value=\"");
+  client.print(0);
+  client.print("\" class=\"slider\" id=\"myRange\">");
+  client.print("<p id=\"slider value\">space holder</p>");
+  //range slider script
+  client.print("<script>var slider = document.getElementById(\"myRange\");");
+  client.print("var output = document.getElementById(\"slider value\");");
+  client.print("output.innerHTML = slider.value;");
+  client.print("slider.oninput = function() {output.innerHTML = this.value;console.log(slider.value);}</script>");
+  //Serial.print(client.read());
 }

@@ -126,7 +126,7 @@ void loop() {
             client.println("HTTP/1.1 200 OK");
             client.println("Content-type:text/html");
             client.println("Connection: close");  // the connection will be closed after completion of the response
-            client.println("Refresh: 5");  // refresh the page automatically every 5 sec
+            client.println("Refresh: 2");  // refresh the page automatically every 5 sec
             client.println();
 
             // the content of the HTTP response follows the header:
@@ -136,6 +136,8 @@ void loop() {
             client.print("<p style=\"font-size:7vw;\">potValue: ");
             client.print(potValue);
             client.print(" <br></p>");
+
+            printSlider(client);
 
             // The HTTP response ends with another blank line:
             client.println();
@@ -180,4 +182,21 @@ void printWiFiStatus() {
   Serial.print("To see this page in action, open a browser to http://");
   Serial.println(ip);
 
+}
+
+void printSlider(WiFiClient client){
+  client.print("<br><input type=\"range\" min=\"");
+  client.print(-90);
+  client.print("\" max=\"");
+  client.print(90);
+  client.print("\" value=\"");
+  client.print(0);
+  client.print("\" class=\"slider\" id=\"myRange\">");
+  client.print("<p id=\"slider value\">space holder</p>");
+  //range slider script
+  client.print("<script>var slider = document.getElementById(\"myRange\");");
+  client.print("var output = document.getElementById(\"slider value\");");
+  client.print("output.innerHTML = slider.value;");
+  client.print("slider.oninput = function() {output.innerHTML = this.value;console.log(slider.value);}</script>");
+  //Serial.print(client.read());
 }
