@@ -11,7 +11,9 @@ namespace WinFormsApp1
     {
         static int port = 49002; //tcpPort
         bool comContinue = true;
-        //private TextBox textBox1;
+
+        private Thread trd;
+
         public Form1()
         {
             InitializeComponent();
@@ -21,6 +23,12 @@ namespace WinFormsApp1
         {
             try
             {
+                if(Start.InvokeRequired)
+                {
+                    Start.Invoke(new Action(Listener));
+                    return;
+                }
+
                 textBox1.AppendText("Starting Packet listener..." + "\r\n");
 
                 //Set the IP Address as server's address, and set port  = 49002
@@ -82,7 +90,7 @@ namespace WinFormsApp1
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -92,7 +100,10 @@ namespace WinFormsApp1
 
         private void Start_Click(object sender, EventArgs e)
         {
-            Listener();
+            //Thread trd = new Thread(new ThreadStart(this.Listener));
+            Thread trd = new Thread(Listener);
+            trd.IsBackground = true;
+            trd.Start();
         }
 
         private void Pause_Click(object sender, EventArgs e)

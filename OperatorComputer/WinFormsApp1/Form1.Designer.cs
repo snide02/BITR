@@ -55,7 +55,7 @@
             // 
             // Pause
             // 
-            Pause.Location = new Point(347, 362);
+            Pause.Location = new Point(347, 351);
             Pause.Name = "Pause";
             Pause.Size = new Size(75, 23);
             Pause.TabIndex = 2;
@@ -65,7 +65,7 @@
             // 
             // Stop
             // 
-            Stop.Location = new Point(577, 371);
+            Stop.Location = new Point(576, 351);
             Stop.Name = "Stop";
             Stop.Size = new Size(75, 23);
             Stop.TabIndex = 3;
