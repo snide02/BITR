@@ -44,7 +44,13 @@ void loop() {
     client.connect(host, port);
   }
 
-  char ch = static_cast<char>(client.read());
+  int read = client.read();
+  char ch = static_cast<char>(read);
+
+  if(read != -1){
+    Serial.print("Char Recieved: ");
+    Serial.println(read);
+  }
 
   if(ch == 'L'){
     //ip = WiFi.localIP();

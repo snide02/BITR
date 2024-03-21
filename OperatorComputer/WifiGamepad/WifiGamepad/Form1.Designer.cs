@@ -45,6 +45,8 @@
             this.lblRight = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.radioButton3 = new System.Windows.Forms.RadioButton();
+            this.Start = new System.Windows.Forms.Button();
+            this.textBox3 = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -211,11 +213,32 @@
             this.radioButton3.TabStop = true;
             this.radioButton3.UseVisualStyleBackColor = true;
             // 
+            // Start
+            // 
+            this.Start.Font = new System.Drawing.Font("Malgun Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Start.Location = new System.Drawing.Point(212, 71);
+            this.Start.Name = "Start";
+            this.Start.Size = new System.Drawing.Size(75, 23);
+            this.Start.TabIndex = 15;
+            this.Start.Text = "Start";
+            this.Start.UseVisualStyleBackColor = true;
+            this.Start.Click += new System.EventHandler(this.Start_Click);
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(557, 283);
+            this.textBox3.Multiline = true;
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(259, 217);
+            this.textBox3.TabIndex = 16;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(555, 730);
+            this.ClientSize = new System.Drawing.Size(828, 730);
+            this.Controls.Add(this.textBox3);
+            this.Controls.Add(this.Start);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.lblRight);
             this.Controls.Add(this.ch7Up);
@@ -262,6 +285,8 @@
         private System.Windows.Forms.Label lblRight;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.RadioButton radioButton3;
+        private System.Windows.Forms.Button Start;
+        private System.Windows.Forms.TextBox textBox3;
     }
 }
 

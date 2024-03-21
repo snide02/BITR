@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{B0A02452-1E3E-4189-8335-6C9BB67D5CB4}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>WifiGamepad</RootNamespace>
-    <AssemblyName>WifiGamepad</AssemblyName>
+    <RootNamespace>JustGamepad</RootNamespace>
+    <AssemblyName>JustGamePad</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

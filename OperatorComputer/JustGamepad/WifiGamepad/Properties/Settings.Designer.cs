@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WifiGamepad.Properties {
+namespace JustGamepad.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

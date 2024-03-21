@@ -1,12 +1,23 @@
 ﻿using OpenJigWare;
 using System;
 using System.Drawing;
+using System.Net.Sockets;
+using System.Net;
+using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace WifiGamepad
 {
     public partial class Form1 : Form
     {
+        static int port = 49002; //tcpPort
+        bool comContinue = true;
+
+        private Thread trd;
+
+        int lJoyX, lJoyY, rJoyX, rJoyY;
+
         public Form1()
         {
             InitializeComponent();
@@ -151,16 +162,103 @@ namespace WifiGamepad
             textBox1.Text = Convert.ToString("X = " + m_CJoy.dY1 + "\r\nY = " + m_CJoy.Slide);
             textBox2.Text = Convert.ToString("X = " + m_CJoy.dX0 + "\r\nY = " + m_CJoy.dY0);
             radioButton3.Location = new Point((int)(168 -m_CJoy.dX1 * 168),10);
+            lJoyX = (int)(100 * m_CJoy.dY1); //Value of first 2 decimals of the Left Joystick's X Axis
+            textBox1.Text = Convert.ToString("\r\nX = " + lJoyX + "\r\nLetter X = " + Convert.ToChar(lJoyX));
         }
 
         private void timer1_Tick_1(object sender, EventArgs e)
         {
-            // 조이스틱 정보 갱신 -> Joystick information update
+            // Joystick information update
             m_CJoy.Update();
-            // 조이스틱이 살아 있는지 체크하는 함수 -> Function to check if the joystick is alive
+            //  Function to check if the joystick is alive
             FJoystick_Check_Alive();
-            // 조이스틱 데이타 체크 -> Joystick data check
+            // Joystick data check
             FJoystick_Check_Data();
+        }
+        public async void Listener()
+        {
+            try
+            {
+                if (Start.InvokeRequired)
+                {
+                    Start.Invoke(new Action(Listener));
+                    return;
+                }
+
+                textBox3.AppendText("Starting Packet listener..." + "\r\n");
+
+                //Set the IP Address as server's address, and set port  = 49002
+                TcpListener server = new TcpListener(IPAddress.Any, port);
+                server.Start();
+
+                textBox3.AppendText("Accepting clients on Port " + port.ToString() + "\r\n");
+
+                //If a connection exists, the server will accept it
+                //NOTE: If no client exists, and the Async version isn't used,
+                //this will cause teh app to hang while it waits
+                TcpClient client = await server.AcceptTcpClientAsync();
+
+                //At this point a remote client has been accepted.
+                //Get remote client IP address
+                string clientIP = client.Client.RemoteEndPoint.ToString();
+                textBox3.AppendText("Client connected from IP Address " + clientIP + "\r\n");
+
+                textBox3.AppendText("Instnatiating Networkstream..." + "\r\n");
+
+                //Networkstream is used to send/receive messages
+                NetworkStream ns = client.GetStream();
+
+                while (client.Connected && comContinue)
+                {
+                    // Joystick information update
+                    m_CJoy.Update();
+                    //  Function to check if the joystick is alive
+                    FJoystick_Check_Alive();
+                    // Joystick data check
+                    FJoystick_Check_Data();
+
+                    //Convert the charater "L" into a decimal equivalent
+                    //of "76" and store it in a single element byte[]
+                    string send = Convert.ToString(Convert.ToChar(lJoyX));
+                    
+                    byte[] writeBuffer = Encoding.ASCII.GetBytes(send);
+
+                    DateTime start = DateTime.Now;
+
+                    //This will write the "76" to the client
+                    ns.Write(writeBuffer, 0, writeBuffer.Length);
+                    textBox3.AppendText("Sent L to client..." + "\r\n");
+
+                    //the messages arrives as byte array
+                    byte[] msg = new byte[4];
+
+                    //reads the message sent by the client using NetworkStream object
+                    //ns.Read(msg, 0, msg.Length);
+
+                    DateTime end = DateTime.Now;
+                    TimeSpan ts = end - start;
+
+                    //Write the message as string
+                    textBox3.AppendText("Client response: " + Encoding.Default.GetString(msg));
+                    textBox3.AppendText("\r\nRoundTrip time = " + ts.TotalMilliseconds.ToString("F1") + "mSec.");
+                    textBox3.AppendText("\r\n \r\n");
+
+                    Thread.Sleep(1000);
+                }
+            }
+            catch
+            {
+                textBox3.AppendText("\r\n" + "Client disconnected!" + "\r\n");
+                return;
+            }
+        }
+
+        private void Start_Click(object sender, EventArgs e)
+        {
+            //Thread trd = new Thread(new ThreadStart(this.Listener));
+            Thread trd = new Thread(Listener);
+            trd.IsBackground = true;
+            trd.Start();
         }
     }
 }

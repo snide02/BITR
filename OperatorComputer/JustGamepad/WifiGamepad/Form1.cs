@@ -151,6 +151,12 @@ namespace WifiGamepad
             textBox1.Text = Convert.ToString("X = " + m_CJoy.dY1 + "\r\nY = " + m_CJoy.Slide);
             textBox2.Text = Convert.ToString("X = " + m_CJoy.dX0 + "\r\nY = " + m_CJoy.dY0);
             radioButton3.Location = new Point((int)(168 -m_CJoy.dX1 * 168),10);
+
+            /*
+            int lJoyX;
+            lJoyX = (int)(100 * m_CJoy.dY1); //Value of first 2 decimals of the Left Joystick's X Axis
+            textBox1.Text = Convert.ToString("\r\nX = " + lJoyX + "\r\nLetter X = " + Convert.ToChar(lJoyX));
+            */
         }
 
         private void timer1_Tick_1(object sender, EventArgs e)
