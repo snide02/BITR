@@ -135,16 +135,6 @@ namespace WifiGamepad
             {
                 resetButtom.ForeColor = Color.Black;
             }
-
-            // Rigth Button, literally does nothing. ¯\_(ツ)_/¯
-            if (m_CJoy.IsDown(Ojw.CJoystick.PadKey.Button6) == true)
-            {
-                lblRight.ForeColor = Color.Red;
-            }
-            else
-            {
-                lblRight.ForeColor = Color.Black;
-            }
             
             radioButton1.Location = new Point((int)(x1 * 1.8 * m_CJoy.dY1),(int)(y1*1.8* m_CJoy.Slide));
             radioButton2.Location = new Point((int)(x2 * 1.8 * m_CJoy.dX0), (int)(y2 * 1.8 * m_CJoy.dY0));
@@ -152,11 +142,17 @@ namespace WifiGamepad
             textBox2.Text = Convert.ToString("X = " + m_CJoy.dX0 + "\r\nY = " + m_CJoy.dY0);
             radioButton3.Location = new Point((int)(168 -m_CJoy.dX1 * 168),10);
 
-            /*
-            int lJoyX;
+            
+            int lJoyX, lJoyY;
             lJoyX = (int)(100 * m_CJoy.dY1); //Value of first 2 decimals of the Left Joystick's X Axis
-            textBox1.Text = Convert.ToString("\r\nX = " + lJoyX + "\r\nLetter X = " + Convert.ToChar(lJoyX));
-            */
+            lJoyY = (int)(100 * m_CJoy.Slide); //Value of first 2 decimals of the Left Joystick's Y Axis
+            textBox1.Text = Convert.ToString("X = " + lJoyX + "\r\nLetter X = " + Convert.ToChar(lJoyX) + "\r\nY = " + lJoyY + "\r\nLetter Y = " + Convert.ToChar(lJoyY));
+
+            int rJoyX, rJoyY;
+            rJoyX = (int)(100 * m_CJoy.dX0); //Value of first 2 decimals of the Left Joystick's X Axis
+            rJoyY = (int)(100 * m_CJoy.dY0); //Value of first 2 decimals of the Left Joystick's Y Axis
+            textBox2.Text = Convert.ToString("X = " + rJoyX + "\r\nLetter X = " + Convert.ToChar(rJoyX) + "\r\nY = " + rJoyY + "\r\nLetter Y = " + Convert.ToChar(rJoyY));
+
         }
 
         private void timer1_Tick_1(object sender, EventArgs e)

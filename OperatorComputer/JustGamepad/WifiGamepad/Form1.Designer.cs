@@ -42,7 +42,6 @@
             this.resetButtom = new System.Windows.Forms.Label();
             this.Ch5Up = new System.Windows.Forms.Label();
             this.ch7Up = new System.Windows.Forms.Label();
-            this.lblRight = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.radioButton3 = new System.Windows.Forms.RadioButton();
             this.panel1.SuspendLayout();
@@ -124,7 +123,7 @@
             this.textBox1.Location = new System.Drawing.Point(13, 508);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(220, 81);
+            this.textBox1.Size = new System.Drawing.Size(220, 104);
             this.textBox1.TabIndex = 6;
             // 
             // textBox2
@@ -132,7 +131,7 @@
             this.textBox2.Location = new System.Drawing.Point(319, 508);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(220, 81);
+            this.textBox2.Size = new System.Drawing.Size(220, 104);
             this.textBox2.TabIndex = 7;
             // 
             // ch8
@@ -180,16 +179,6 @@
             this.ch7Up.TabIndex = 11;
             this.ch7Up.Text = "Enable Switch";
             // 
-            // lblRight
-            // 
-            this.lblRight.AutoSize = true;
-            this.lblRight.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblRight.Location = new System.Drawing.Point(404, 20);
-            this.lblRight.Name = "lblRight";
-            this.lblRight.Size = new System.Drawing.Size(106, 23);
-            this.lblRight.TabIndex = 13;
-            this.lblRight.Text = "Right Button";
-            // 
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.SystemColors.ControlLight;
@@ -217,7 +206,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(555, 730);
             this.Controls.Add(this.panel3);
-            this.Controls.Add(this.lblRight);
             this.Controls.Add(this.ch7Up);
             this.Controls.Add(this.Ch5Up);
             this.Controls.Add(this.resetButtom);
@@ -259,7 +247,6 @@
         private System.Windows.Forms.Label resetButtom;
         private System.Windows.Forms.Label Ch5Up;
         private System.Windows.Forms.Label ch7Up;
-        private System.Windows.Forms.Label lblRight;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.RadioButton radioButton3;
     }

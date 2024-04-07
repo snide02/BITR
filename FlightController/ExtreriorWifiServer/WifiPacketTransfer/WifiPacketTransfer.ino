@@ -7,7 +7,7 @@ int status = WL_IDLE_STATUS;
 char ssid[] = SECRET_SSID;        // your network SSID (name)
 char pass[] = SECRET_PASS;    // your network password (use for WPA, or use as key for WEP)
 
-const char* host = "192.168.1.87";
+const char* host = "192.168.1.101";   //AAAABITR Router
 const uint16_t port = 49002;      // local port to listen on
 
 char packetBuffer[256]; //buffer to hold incoming packet
@@ -30,7 +30,7 @@ void setup() {
     delay(10000);
   }
 
-  Serial.println("Connected to WiFi");
+  Serial.println("Connected to WiFi");]
   printWifiStatus();
 
   Serial.println("\nStarting connection to server...");
@@ -44,20 +44,36 @@ void loop() {
     client.connect(host, port);
   }
 
-  int read = client.read();
-  char ch = static_cast<char>(read);
+  String read = client.readString();
+  //client.read()
+  //client.readBytes()
+  //client.readString()
+  //char ch = static_cast<char>(read);
 
-  if(read != -1){
+  if( read != ""){
     Serial.print("Char Recieved: ");
     Serial.println(read);
+    //delay(1000);
+    client.print(read);
+    char packet[read.length()];
+    read.toCharArray(packet, read.length());
   }
 
-  if(ch == 'L'){
+  /*if(read != -1){
+    Serial.print("Char Recieved: ");
+    Serial.println(read);
+    //delay(1000);
+    client.print(read);
+  }*/
+
+  
+
+  /*if(ch == 'L'){
     //ip = WiFi.localIP();
     
     client.print(123);
     //clinet.print(ip.toString());
-  }
+  }*/
 }
 
 void printWifiStatus() {

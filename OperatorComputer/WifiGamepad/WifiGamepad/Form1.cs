@@ -16,7 +16,7 @@ namespace WifiGamepad
 
         private Thread trd;
 
-        int lJoyX, lJoyY, rJoyX, rJoyY;
+        int lJoyX, lJoyY, rJoyX, rJoyY, eStop, enable, mode;
 
         public Form1()
         {
@@ -96,18 +96,21 @@ namespace WifiGamepad
             {
                 ch8.ForeColor = Color.Red;
                 ch8.Text = "Flight Mode";
+                mode = 48;
             }
             //Hybrid Mode
             else if (m_CJoy.IsDown(Ojw.CJoystick.PadKey.Button5) == true)
             {
                 ch8.Text = "Hybrid Mode";
                 ch8.ForeColor = Color.DarkRed;
+                mode = 50;
             }
             //Drive Mode
             else if (m_CJoy.IsDown(Ojw.CJoystick.PadKey.Button4) == false && m_CJoy.IsDown(Ojw.CJoystick.PadKey.Button5) == false)
             {
                 ch8.ForeColor = Color.IndianRed;
                 ch8.Text = "Drive Mode";
+                mode = 49;
             }
             else
             {
@@ -119,10 +122,12 @@ namespace WifiGamepad
             if (m_CJoy.IsDown(Ojw.CJoystick.PadKey.Button1) == true)
             {
                 Ch5Up.ForeColor = Color.Red;
+                comContinue = true;
             }
             else
             {
                 Ch5Up.ForeColor = Color.Black;
+                comContinue = false;
             }
 
             //Enable Switch
@@ -130,21 +135,28 @@ namespace WifiGamepad
             {
                 ch7Up.ForeColor = Color.Red;
                 ch7Up.Text = "Enabled";
+                enable = 49;
+
             }
             else
             {
                 ch7Up.ForeColor = Color.Black;
                 ch7Up.Text = "Disabled";
+                enable = 48;
             }
 
             //E-Stop
             if (m_CJoy.IsDown(Ojw.CJoystick.PadKey.Button3) == true)
             {
                 resetButtom.ForeColor = Color.Red;
+                //Application.Exit();
+                //comContinue = false;
+                eStop = 49;
             }
             else
             {
                 resetButtom.ForeColor = Color.Black;
+                eStop = 48;
             }
 
             // Rigth Button, literally does nothing. ¯\_(ツ)_/¯
@@ -162,8 +174,18 @@ namespace WifiGamepad
             textBox1.Text = Convert.ToString("X = " + m_CJoy.dY1 + "\r\nY = " + m_CJoy.Slide);
             textBox2.Text = Convert.ToString("X = " + m_CJoy.dX0 + "\r\nY = " + m_CJoy.dY0);
             radioButton3.Location = new Point((int)(168 -m_CJoy.dX1 * 168),10);
+            
             lJoyX = (int)(100 * m_CJoy.dY1); //Value of first 2 decimals of the Left Joystick's X Axis
-            textBox1.Text = Convert.ToString("\r\nX = " + lJoyX + "\r\nLetter X = " + Convert.ToChar(lJoyX));
+            lJoyY = (int)(100 * m_CJoy.Slide); //Value of first 2 decimals of the Left Joystick's Y Axis
+            textBox1.Text = Convert.ToString("X = " + lJoyX + "\r\nLetter X = " + Convert.ToChar(lJoyX) + "\r\nY = " + lJoyY + "\r\nLetter Y = " + Convert.ToChar(lJoyY));
+
+            
+            rJoyX = (int)(100 * m_CJoy.dX0); //Value of first 2 decimals of the Left Joystick's X Axis
+            rJoyY = (int)(100 * m_CJoy.dY0); //Value of first 2 decimals of the Left Joystick's Y Axis
+            textBox2.Text = Convert.ToString("X = " + rJoyX + "\r\nLetter X = " + Convert.ToChar(rJoyX) + "\r\nY = " + rJoyY + "\r\nLetter Y = " + Convert.ToChar(rJoyY));
+
+            txtMessage.Text = Convert.ToString("E-Stop = " + eStop + "  Letter E-Stop = " + Convert.ToChar(eStop) + "\r\nEnable = " + enable + "  Letter Enable = " + Convert.ToChar(enable) + "\r\nMode = " + mode + "  Letter Mode = " + Convert.ToChar(mode));
+
         }
 
         private void timer1_Tick_1(object sender, EventArgs e)
@@ -219,9 +241,20 @@ namespace WifiGamepad
 
                     //Convert the charater "L" into a decimal equivalent
                     //of "76" and store it in a single element byte[]
-                    string send = Convert.ToString(Convert.ToChar(lJoyX));
-                    
-                    byte[] writeBuffer = Encoding.ASCII.GetBytes(send);
+                    string sendlX = Convert.ToString(Convert.ToChar(lJoyX));
+                    string sendlY = Convert.ToString(Convert.ToChar(lJoyY));
+                    string sendrX = Convert.ToString(Convert.ToChar(rJoyX));
+                    string sendrY = Convert.ToString(Convert.ToChar(rJoyY));
+                    string sendEmStop = Convert.ToString(Convert.ToChar(eStop));
+                    string sendEnable = Convert.ToString(Convert.ToChar(enable));
+                    string sendMode = Convert.ToString(Convert.ToChar(mode));
+
+                    //string send
+                    //byte[] writeBuffer = Encoding.ASCII.GetBytes(sendlX + sendlY + sendrX + sendrY);
+                    byte[] writeBuffer = Encoding.ASCII.GetBytes(sendlX + sendlY + sendrX + sendrY + sendEmStop + sendEnable + sendMode);
+                    Console.WriteLine("Write Buffer Lenght: " + writeBuffer.Length);
+                    Console.WriteLine("Write Buffer:  " + writeBuffer);
+                    Console.WriteLine("AAAAAAh:  " + sendlX + sendlY + sendrX + sendrY + sendEmStop + sendEnable + sendMode);
 
                     DateTime start = DateTime.Now;
 
@@ -230,10 +263,10 @@ namespace WifiGamepad
                     textBox3.AppendText("Sent L to client..." + "\r\n");
 
                     //the messages arrives as byte array
-                    byte[] msg = new byte[4];
+                    byte[] msg = new byte[8];
 
                     //reads the message sent by the client using NetworkStream object
-                    //ns.Read(msg, 0, msg.Length);
+                    ns.Read(msg, 0, msg.Length);
 
                     DateTime end = DateTime.Now;
                     TimeSpan ts = end - start;
