@@ -18,6 +18,7 @@ int sentVal;
 
 void setup() {
   // Attach the ESC on pin 9
+<<<<<<< Updated upstream
   ESC5.attach(5,1000,1800); // (pin, min pulse width, max pulse width in microseconds) 
   ESC4.attach(4,1000,1800);
   ESC3.attach(3,1000,1800);
@@ -46,12 +47,27 @@ void loop() {
  // potValue = analogRead(A0);   // reads the value of the potentiometer (value between 0 and 1023)
  // potValue = map(potValue, 0, 1023, 0, 180);   // scale it to use it with the servo library (value between 0 and 180)
   //sentVal = potValue;
+=======
+  ESC.attach(9,1000,2000); // (pin, min pulse width, max pulse width in microseconds) 
+  Serial.begin(115200);
+}
+
+void loop() {
+  potValue = analogRead(A0);   // reads the value of the potentiometer (value between 0 and 1023)
+
+  Serial.print("potValue: ");
+  Serial.print(potValue);
+
+  potValue = map(potValue, 0, 1023, -180, 180);   // scale it to use it with the servo library (value between 0 and 180)
+  sentVal = potValue;
+>>>>>>> Stashed changes
 
   /*if (sentVal <= 20 && sentVal >= -20){
     sentVal = 0;
   }*/
 
   //ESC.write(potValue);    // Send the signal to the ESC
+<<<<<<< Updated upstream
   //ESC.write(sentVal);
 
   //Serial.println(ESC.read());
@@ -139,6 +155,12 @@ delay(3000);
   /*
   Serial.print("potValue: ");
   Serial.print(potValue);
+=======
+
+  ESC.write(sentVal);
+
+
+>>>>>>> Stashed changes
   Serial.print("  Sent Value: ");
   Serial.println(sentVal);
   */
