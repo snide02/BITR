@@ -56,13 +56,13 @@ namespace WinFormsApp1
                 {
                     //Convert the charater "L" into a decimal equivalent
                     //of "76" and store it in a single element byte[]
-                    byte[] writeBuffer = Encoding.ASCII.GetBytes("L");
+                    byte[] writeBuffer = Encoding.ASCII.GetBytes("A");
 
                     DateTime start = DateTime.Now;
 
                     //This will write the "76" to the client
                     ns.Write(writeBuffer, 0, writeBuffer.Length);
-                    textBox1.AppendText("Sent L to client..." + "\r\n");
+                    textBox1.AppendText("Sent A to client..." + "\r\n");
 
                     //the messages arrives as byte array
                     byte[] msg = new byte[4];
@@ -78,7 +78,7 @@ namespace WinFormsApp1
                     textBox1.AppendText("\r\nRoundTrip time = " + ts.TotalMilliseconds.ToString("F1") + "mSec.");
                     textBox1.AppendText("\r\n \r\n");
 
-                    Thread.Sleep(1000);
+                    //Thread.Sleep(1000);
                 }
             }
             catch

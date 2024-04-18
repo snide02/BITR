@@ -11,12 +11,15 @@ Servo servo3;
 Servo servo4;
 
 int throttle;
+int counterThrottle;
 float steer;
 
 int motor1Speed;
 int motor2Speed;
 int motor3Speed;
 int motor4Speed;
+
+int lX, lY, rX, rY, eStop, enable, mode;
 
 int status = WL_IDLE_STATUS;
 #include "arduino_secrets.h" 
@@ -27,6 +30,7 @@ char pass[] = SECRET_PASS;    // your network password (use for WPA, or use as k
 //const char* host = "192.168.1.87";  //my Home ip
 //const char* host = "192.168.1.242";    //Paul's house ip
 const char* host = "192.168.1.101";   //AAAABITR Router
+//const char* host = "192.168.9.208";   //BITR24 Router
 const uint16_t port = 49002;      // local port to listen on
 
 char packetBuffer[256]; //buffer to hold incoming packet
@@ -37,7 +41,11 @@ char packet[9];
 //WiFiUDP Udp;
 WiFiClient client;
 
+bool wasConnected = false;
+
 void setup() {
+  pinMode(LED_BUILTIN, OUTPUT);
+
   // Attach the ESC on pin 9
   motor1.attach(5,1000,2000); // (pin, min pulse width, max pulse width in microseconds) 
   motor2.attach(4,1000,2000); // (pin, min pulse width, max pulse width in microseconds) 
@@ -50,6 +58,18 @@ void setup() {
   servo4.attach(6,1000,2000); // (pin, min pulse width, max pulse width in microseconds) 
   
   strcpy(packet, "0T00");
+
+  /*motor1.write(90);
+  motor2.write(90);
+  motor3.write(90);
+  motor4.write(90);
+
+  servo1.write(180);
+  servo2.write(180);
+  servo3.write(180);
+  servo4.write(180);*/
+
+  delay(3000);
 
   Serial.begin(9600);
 
@@ -77,66 +97,117 @@ void setup() {
 void loop() {
   while(!client.connected()){
     client.connect(host, port);
+    if(wasConnected){
+      motor1.write(90);
+      motor2.write(90);
+      motor3.write(90);
+      motor4.write(90);
+
+      Serial.print("WARNING!!!!  CONNECTION LOST!!!!");
+    }
+  }
+  wasConnected = true;
+  //while(client.connected()){
+  //String read = client.readString();
+  lX = client.read();
+  lY = client.read();
+  rX = client.read();
+  rY = client.read();
+  eStop = client.read();
+  enable = client.read();
+  mode = client.read();
+
+  //if( read != ""){
+  Serial.print("Packet Recieved: ");
+  //Serial.println(read);
+  Serial.print("Char Recieved: ");
+  Serial.print(lX);
+  Serial.print(lY);
+  Serial.print(rX);
+  Serial.print(rY);
+  Serial.print(eStop);
+  Serial.print(enable);
+  Serial.println(mode);
+  delay(100);
+  client.print(lX);
+  //packet[read.length() + 1];
+  //read.toCharArray(packet, read.length() + 1);
+
+  Serial.print("Packet: ");
+  Serial.println(packet);
+
+  /*lX = packet[0];
+  lY = packet[1];
+  rX = packet[2];
+  rY = packet[3];
+  eStop = packet[4];
+  enable = packet[5];
+  mode = packet[6];*/
+
+  //}
+  
+  if(eStop == 49){
+    while(1){
+      motor1.write(90);
+      motor2.write(90);
+      motor3.write(90);
+      motor4.write(90);
+
+      Serial.print("EMERGENCY!!!!  E_STOP HAS BEEN TRIGGERED!!!!");
+
+    }
   }
 
-  String read = client.readString();
-  //client.read()
-  //client.readBytes()
-  //client.readString()
-  //char ch = static_cast<char>(read);
-
-  if( read != ""){
-    Serial.print("Char Recieved: ");
-    Serial.println(read);
-    //delay(1000);
-    client.print(read);
-    packet[read.length() + 1];
-    read.toCharArray(packet, read.length() + 1);
-
-    Serial.print("Packet: ");
-    Serial.println(packet);
-
+  if(enable == 49){
+    digitalWrite(LED_BUILTIN, HIGH);
+  } else {
+    digitalWrite(LED_BUILTIN, LOW);
   }
 
-  int lX = packet[0];
-  int lY = packet[1];
-  int rX = packet[2];
-  int rY = packet[3];
-  int eStop = packet[4];
-  int enable = packet[5];
-  int mode = packet[6];
-
-  throttle = map(lY, 84, 21, 0, 180);
+  throttle = map(lY, 84, 21, 90, 180);
+  //throttle = map(lX, 17, 86, 70, 110);
+  counterThrottle = map(throttle, 110, 90, 70, 90);
   steer = map(rX, 17, 83, -100, 100);
   steer = steer / 100;
+  steer = 0;
+  counterThrottle = throttle;
 
   Serial.print("Throttle: ");
   Serial.println(throttle);
   Serial.print("Steer: ");
   Serial.println(steer);
 
+  servo1.write(180);
+  servo2.write(180);
+  servo3.write(180);
+  servo4.write(180);
+  
+
   if(steer < 0){ // Steer Left
+    
     motor1Speed = throttle + throttle * steer ;
     motor4Speed = throttle + throttle * steer;
 
-    motor2Speed = throttle;
-    motor3Speed = throttle;
+    motor2Speed = counterThrottle;
+    motor3Speed = counterThrottle;
   }
   else if (steer > 0){ // Steer Right
+    
     motor1Speed = throttle;
     motor4Speed = throttle;
 
-    motor2Speed = throttle - throttle * steer;
-    motor3Speed = throttle - throttle * steer;
+    motor2Speed = counterThrottle - counterThrottle * steer;
+    motor3Speed = counterThrottle - counterThrottle * steer;
   }
   else{
+    
     motor1Speed = throttle;
     motor4Speed = throttle;
 
     motor2Speed = throttle;
     motor3Speed = throttle;
   }
- 
+
   motor1.write(motor1Speed);
   motor2.write(motor2Speed);
   motor3.write(motor3Speed);
@@ -151,6 +222,7 @@ void loop() {
   Serial.println(motor2Speed);
   Serial.print("Motor 3 Speed: ");
   Serial.println(motor3Speed);
+  
 }
 
 void printWifiStatus() {

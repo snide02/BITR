@@ -6,6 +6,8 @@
 */
 
 #include <Servo.h>
+#include <Wire.h> 
+#include <Adafruit_PWMServoDriver.h>
 
 Servo ESC5, ESC4, ESC3, ESC2;     // create servo object to control the ESC
 Servo servo9;
@@ -13,49 +15,70 @@ Servo servo8;
 Servo servo7;
 Servo servo6;
 
-int potValue;  // value from the analog pin
+Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
+
+int potValue, ipotValue;  // value from the analog pin
 int sentVal;
 
 void setup() {
-  // Attach the ESC on pin 9
-  ESC5.attach(5,1000,1800); // (pin, min pulse width, max pulse width in microseconds) 
-  ESC4.attach(4,1000,1800);
-  ESC3.attach(3,1000,1800);
-  ESC2.attach(2,1000,1800);
+
+  pwm.begin();
+  pwm.setPWMFreq(50);
+
+  // (pin, min pulse width, max pulse width in microseconds)
+  ESC5.attach(5,1000,2000); //motor1
+  ESC4.attach(4,1000,2000); //motor2
+  ESC3.attach(3,1000,2000); //motor3
+  ESC2.attach(2,1000,2000); //motor4
   servo9.attach(9,1000,2000);
   servo8.attach(8,1000,2000);
   servo7.attach(7,1000,2000);
   servo6.attach(6,1000,2000);
-  
-ESC5.write(90);
-ESC4.write(90);
-ESC3.write(90);
-ESC2.write(90);
+  /*  
+  ESC5.write(90);
+  ESC4.write(90);
+  ESC3.write(90);
+  ESC2.write(90);
 
-servo9.write(180);
-servo8.write(180);
-servo7.write(180);
-servo6.write(180);
-
-delay(1000);
+  servo9.write(180);
+  servo8.write(180);
+  servo7.write(180);
+  servo6.write(180);
+  */
+  delay(3000);
 
   Serial.begin(9600);
 }
 
 void loop() {
- // potValue = analogRead(A0);   // reads the value of the potentiometer (value between 0 and 1023)
- // potValue = map(potValue, 0, 1023, 0, 180);   // scale it to use it with the servo library (value between 0 and 180)
-  //sentVal = potValue;
+  int zero = 323;
+  potValue = analogRead(A0);   // reads the value of the potentiometer (value between 0 and 1023)
+  potValue = map(potValue, 0, 1023, zero, 436);   // scale it to use it with the servo library (value between 0 and 180)
+  ipotValue = map(potValue, zero, 436, zero, 217);
+  sentVal = potValue;
+  Serial.print("Pot Value:");
+  Serial.println(potValue);
+  Serial.print("Ipot Value:");
+  Serial.println(ipotValue);
 
   /*if (sentVal <= 20 && sentVal >= -20){
     sentVal = 0;
   }*/
 
-  //ESC.write(potValue);    // Send the signal to the ESC
+  pwm.setPWM(3, 0, potValue);
+  pwm.setPWM(1, 0, ipotValue);
+  //ESC2.write(potValue);    // Send the signal to the ESC
   //ESC.write(sentVal);
 
-  //Serial.println(ESC.read());
-  //delay(2000);
+  //Serial.println(ESC2.read());
+
+/*
+  servo9.write(180);
+  servo8.write(180);
+  servo7.write(180);
+  servo6.write(180);
+
+  delay(500);
 
 /*
   ESC7.write(180);
@@ -71,12 +94,12 @@ void loop() {
 
 
 
-
-ESC5.write(120);
-ESC4.write(120);
-ESC3.write(120);
-ESC2.write(120);
-Serial.println(120);
+/*
+ESC5.write(110);
+ESC4.write(110);
+ESC3.write(110);
+ESC2.write(110);
+Serial.println("110");
 delay(3000);
 
 ESC5.write(90);
@@ -85,7 +108,9 @@ ESC3.write(90);
 ESC2.write(90);
 Serial.println(90);
 delay(3000);
+*/
 
+/*
 ESC5.write(60);
 ESC4.write(60);
 ESC3.write(60);
@@ -99,12 +124,14 @@ ESC3.write(90);
 ESC2.write(90);
 Serial.println(90);
 delay(3000);
-
-/*this block moves all 4 servos down to 180 then up to 0
+*/
+/*
+//this block moves all 4 servos down to 180 then up to 0
 servo9.write(180);
 servo8.write(180);
 servo7.write(180);
 servo6.write(180);
+Serial.println("AAAA   Servo 180");
 
 delay(3000);
 
@@ -112,9 +139,10 @@ servo9.write(0);
 servo8.write(0);
 servo7.write(0);
 servo6.write(0);
+Serial.println("BBBB   Servo 0");
 
 delay(3000);
-*/
+
 
   /*
   if(ESC.read() == 90){

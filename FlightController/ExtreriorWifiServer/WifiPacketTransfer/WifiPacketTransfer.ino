@@ -16,6 +16,8 @@ char  ReplyBuffer[] = "acknowledged\n";       // a string to send back
 //WiFiUDP Udp;
 WiFiClient client;
 
+int lY;
+
 void setup() {
   Serial.begin(9600);
 
@@ -30,7 +32,7 @@ void setup() {
     delay(10000);
   }
 
-  Serial.println("Connected to WiFi");]
+  Serial.println("Connected to WiFi");
   printWifiStatus();
 
   Serial.println("\nStarting connection to server...");
@@ -44,20 +46,40 @@ void loop() {
     client.connect(host, port);
   }
 
-  String read = client.readString();
-  //client.read()
+  //String read = client.readString();
+  int lX = client.read();
+  int lY = client.read();
+  int rX = client.read();
+  int rY = client.read();
+  int eStop = client.read();
+  int enable = client.read();
+  int mode = client.read();
   //client.readBytes()
   //client.readString()
   //char ch = static_cast<char>(read);
 
-  if( read != ""){
+  //if( read != ""){
     Serial.print("Char Recieved: ");
-    Serial.println(read);
-    //delay(1000);
-    client.print(read);
-    char packet[read.length()];
-    read.toCharArray(packet, read.length());
-  }
+    Serial.print(lX);
+    Serial.print(lY);
+    Serial.print(rX);
+    Serial.print(rY);
+    Serial.print(eStop);
+    Serial.print(enable);
+    Serial.println(mode);
+    //Serial.println(lX);
+    delay(100);
+    client.print(lX);
+    //char packet[read.length()];
+    //read.toCharArray(packet, read.length());
+  //}
+
+  Serial.print("lY: ");
+  Serial.println(lY);
+  
+  /*lY = map(read[1], 84, 21, 90, 180);
+  Serial.print("Speed: ");
+  Serial.println(lY);*/
 
   /*if(read != -1){
     Serial.print("Char Recieved: ");

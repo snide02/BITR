@@ -69,7 +69,7 @@
             this.radioButton1.Checked = true;
             this.radioButton1.Location = new System.Drawing.Point(103, 103);
             this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(14, 13);
+            this.radioButton1.Size = new System.Drawing.Size(17, 16);
             this.radioButton1.TabIndex = 0;
             this.radioButton1.TabStop = true;
             this.radioButton1.UseVisualStyleBackColor = true;
@@ -90,7 +90,7 @@
             this.radioButton2.Checked = true;
             this.radioButton2.Location = new System.Drawing.Point(103, 103);
             this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(14, 13);
+            this.radioButton2.Size = new System.Drawing.Size(17, 16);
             this.radioButton2.TabIndex = 0;
             this.radioButton2.TabStop = true;
             this.radioButton2.UseVisualStyleBackColor = true;
@@ -111,7 +111,7 @@
             this.lbJoystick.Font = new System.Drawing.Font("Malgun Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.lbJoystick.Location = new System.Drawing.Point(12, 9);
             this.lbJoystick.Name = "lbJoystick";
-            this.lbJoystick.Size = new System.Drawing.Size(28, 34);
+            this.lbJoystick.Size = new System.Drawing.Size(36, 43);
             this.lbJoystick.TabIndex = 5;
             this.lbJoystick.Text = "a";
             // 
@@ -145,7 +145,7 @@
             this.ch8.Font = new System.Drawing.Font("Malgun Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.ch8.Location = new System.Drawing.Point(14, 71);
             this.ch8.Name = "ch8";
-            this.ch8.Size = new System.Drawing.Size(123, 23);
+            this.ch8.Size = new System.Drawing.Size(147, 30);
             this.ch8.TabIndex = 8;
             this.ch8.Text = "Mode Selector";
             // 
@@ -156,7 +156,7 @@
             this.resetButtom.Font = new System.Drawing.Font("Malgun Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.resetButtom.Location = new System.Drawing.Point(75, 206);
             this.resetButtom.Name = "resetButtom";
-            this.resetButtom.Size = new System.Drawing.Size(87, 34);
+            this.resetButtom.Size = new System.Drawing.Size(110, 43);
             this.resetButtom.TabIndex = 9;
             this.resetButtom.Text = "E-Stop";
             // 
@@ -167,7 +167,7 @@
             this.Ch5Up.Font = new System.Drawing.Font("Malgun Gothic", 18F);
             this.Ch5Up.Location = new System.Drawing.Point(100, 142);
             this.Ch5Up.Name = "Ch5Up";
-            this.Ch5Up.Size = new System.Drawing.Size(32, 34);
+            this.Ch5Up.Size = new System.Drawing.Size(40, 43);
             this.Ch5Up.TabIndex = 10;
             this.Ch5Up.Text = "A";
             // 
@@ -178,7 +178,7 @@
             this.ch7Up.Font = new System.Drawing.Font("Malgun Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.ch7Up.Location = new System.Drawing.Point(363, 142);
             this.ch7Up.Name = "ch7Up";
-            this.ch7Up.Size = new System.Drawing.Size(165, 34);
+            this.ch7Up.Size = new System.Drawing.Size(207, 43);
             this.ch7Up.TabIndex = 11;
             this.ch7Up.Text = "Enable Switch";
             // 
@@ -188,7 +188,7 @@
             this.lblRight.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblRight.Location = new System.Drawing.Point(404, 20);
             this.lblRight.Name = "lblRight";
-            this.lblRight.Size = new System.Drawing.Size(106, 23);
+            this.lblRight.Size = new System.Drawing.Size(131, 30);
             this.lblRight.TabIndex = 13;
             this.lblRight.Text = "Right Button";
             // 
@@ -208,7 +208,7 @@
             this.radioButton3.Checked = true;
             this.radioButton3.Location = new System.Drawing.Point(85, 9);
             this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(14, 13);
+            this.radioButton3.Size = new System.Drawing.Size(17, 16);
             this.radioButton3.TabIndex = 0;
             this.radioButton3.TabStop = true;
             this.radioButton3.UseVisualStyleBackColor = true;
@@ -229,12 +229,12 @@
             this.textBox3.Location = new System.Drawing.Point(557, 283);
             this.textBox3.Multiline = true;
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(259, 217);
+            this.textBox3.Size = new System.Drawing.Size(259, 329);
             this.textBox3.TabIndex = 16;
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 28F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(828, 730);
             this.Controls.Add(this.textBox3);
