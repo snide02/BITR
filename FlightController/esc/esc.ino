@@ -167,6 +167,9 @@ delay(3000);
   /*
   Serial.print("potValue: ");
   Serial.print(potValue);
+
+  ESC.write(sentVal);
+
   Serial.print("  Sent Value: ");
   Serial.println(sentVal);
   */
