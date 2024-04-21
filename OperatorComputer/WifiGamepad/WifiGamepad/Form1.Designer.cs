@@ -42,7 +42,6 @@
             this.resetButtom = new System.Windows.Forms.Label();
             this.Ch5Up = new System.Windows.Forms.Label();
             this.ch7Up = new System.Windows.Forms.Label();
-            this.lblRight = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.radioButton3 = new System.Windows.Forms.RadioButton();
             this.Start = new System.Windows.Forms.Button();
@@ -165,11 +164,11 @@
             this.Ch5Up.AutoSize = true;
             this.Ch5Up.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.Ch5Up.Font = new System.Drawing.Font("Malgun Gothic", 18F);
-            this.Ch5Up.Location = new System.Drawing.Point(100, 142);
+            this.Ch5Up.Location = new System.Drawing.Point(75, 142);
             this.Ch5Up.Name = "Ch5Up";
-            this.Ch5Up.Size = new System.Drawing.Size(40, 43);
+            this.Ch5Up.Size = new System.Drawing.Size(142, 43);
             this.Ch5Up.TabIndex = 10;
-            this.Ch5Up.Text = "A";
+            this.Ch5Up.Text = "Direction";
             // 
             // ch7Up
             // 
@@ -181,16 +180,6 @@
             this.ch7Up.Size = new System.Drawing.Size(207, 43);
             this.ch7Up.TabIndex = 11;
             this.ch7Up.Text = "Enable Switch";
-            // 
-            // lblRight
-            // 
-            this.lblRight.AutoSize = true;
-            this.lblRight.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblRight.Location = new System.Drawing.Point(404, 20);
-            this.lblRight.Name = "lblRight";
-            this.lblRight.Size = new System.Drawing.Size(131, 30);
-            this.lblRight.TabIndex = 13;
-            this.lblRight.Text = "Right Button";
             // 
             // panel3
             // 
@@ -240,7 +229,6 @@
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.Start);
             this.Controls.Add(this.panel3);
-            this.Controls.Add(this.lblRight);
             this.Controls.Add(this.ch7Up);
             this.Controls.Add(this.Ch5Up);
             this.Controls.Add(this.resetButtom);
@@ -282,7 +270,6 @@
         private System.Windows.Forms.Label resetButtom;
         private System.Windows.Forms.Label Ch5Up;
         private System.Windows.Forms.Label ch7Up;
-        private System.Windows.Forms.Label lblRight;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.RadioButton radioButton3;
         private System.Windows.Forms.Button Start;
